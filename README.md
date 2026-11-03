@@ -18,7 +18,7 @@ Urchin's 30 finger keys map directly to Temper; its four thumbs occupy Temper
 positions 31–34. The port uses kb's bottom-row modifiers, positional layer
 holds, macros, combo timing, and dedicated locked layers, including kb v0.2.8's
 Nav Locked layer and revised Sym bindings, with corrected combo
-targets/scopes, N's right-hand hold behavior, and tap-preferred modifier holds.
+targets/scopes, N's right-hand hold behavior, and tuned hold-tap behaviors.
 The same firmware source can be edited with either editor below.
 
 See [the comparison with the original Temper keymap](docs/keymap-comparison.md)
@@ -38,14 +38,16 @@ The base thumb keys, ordered from left to right, are:
 | Right outer | Original Temper Symbols layer | Original Temper Symbols layer |
 
 On Base, holding **T / R** accesses **Numpad / FN**, and holding **S / D / F / G**
-accesses **Vi / Master / Nav / Mouse**, using kb's positional hold rules and
-timing. Backspace is at the right end of the home row. Symbols provides the
+accesses **Vi / Master / Nav / Mouse**, using positional hold rules and the
+timing below. Backspace is at the right end of the home row. Symbols provides the
 number row, and FN provides F1–F12.
 
-Bottom-row modifier holds are **tap-preferred**, with a **350 ms** tapping term
+Bottom-row modifier holds are **balanced**, with a **350 ms** tapping term
 on the left and **280 ms** on the right. The positional and prior-idle rules
 remain in place. The Sym-layer Ctrl/Backspace binding shares the right-hand
-behavior. Letter-key layer holds and Enter/Space thumb holds remain **balanced**.
+behavior. S/D/F layer holds are **balanced** (260 ms). The strict T/R/G layer
+holds are **tap-preferred** (260 ms, 100 ms prior idle), and the Enter/Space
+thumb holds are **tap-preferred** (350 ms, 100 ms prior idle).
 
 Temper's two additional outer thumbs have these per-layer actions:
 

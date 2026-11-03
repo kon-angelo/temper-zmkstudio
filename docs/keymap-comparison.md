@@ -11,8 +11,8 @@ kb2/Sofle port.
 | Area | Original Temper | kb-based Temper |
 | --- | --- | --- |
 | Modifier placement | Mainly home-row mods: GUI/Alt/Ctrl/Shift | Bottom-row mods, including Shift on M and GUI on comma |
-| Modifier hold-taps | `u_mt`: tap-preferred, 200 ms; no positional or prior-idle rules | `homerow_left`: tap-preferred, 350 ms, 100 ms prior idle; `homerow_right`: tap-preferred, 280 ms, 150 ms prior idle |
-| Layer hold-taps | `u_lt`: tap-preferred, 200 ms | `tap_left`: balanced, 260 ms, 100 ms prior idle; strict variant: 260/120 ms; `master_key`: 350/100 ms |
+| Modifier hold-taps | `u_mt`: tap-preferred, 200 ms; no positional or prior-idle rules | `homerow_left`: balanced, 350 ms, 100 ms prior idle; `homerow_right`: balanced, 280 ms, 150 ms prior idle |
+| Layer hold-taps | `u_lt`: tap-preferred, 200 ms | `tap_left`: balanced, 260 ms, 100 ms prior idle; strict variant: tap-preferred, 260/100 ms; `master_key`: tap-preferred, 350/100 ms |
 | Positional holds | No hand restrictions | Hand-specific triggers and `hold-trigger-on-release`; master thumbs accept all 30 finger positions |
 | Layer switching | Ten double-tap dances; a single tap does nothing, double tap switches layers | Direct holds/toggles and combos; dedicated Mouse, Numpad, FN and Nav locked layers survive release of their original holds |
 | Sticky modifiers | No custom sticky-key setup | `sk`: lazy + quick-release, 1-second timeout, retains ignore-modifiers; `sk2`: quick-release + ignore-modifiers, 1-second timeout |
@@ -27,7 +27,7 @@ The exact feel therefore changes as well as the numerical tapping terms.
 
 ### Tap-preferred versus balanced for letter-key layers
 
-For S/D/F/G (and the T/R layer holds), **balanced is the current recommendation**:
+For S/D/F, **balanced is the current setting**:
 an opposite-hand key press and release can activate the layer before the 260 ms
 tapping term expires. The existing positional and prior-idle rules already
 protect against many unintended holds during typing.
@@ -35,11 +35,11 @@ protect against many unintended holds during typing.
 **Tap-preferred favors typing accuracy over quick layer chords**: other keys
 do not trigger an early hold, so an intentional layer hold normally needs the
 full 260 ms. It can help if nested typing sequences still cause accidental
-layer activation. Neither flavor is universally better. Letter-key layer holds
-and thumb holds remain balanced; the bottom-row modifier behaviors have been
-switched to tap-preferred at the user's request, retaining their 350/280 ms
-timing and positional/prior-idle safeguards. The Sym-layer Ctrl/Backspace binding
-also uses the right-hand modifier behavior.
+layer activation. Neither flavor is universally better. The latest tuning uses
+tap-preferred for the strict T/R/G holds (260 ms, 100 ms prior idle) and the
+Enter/Space thumb holds (350 ms, 100 ms prior idle). Bottom-row modifiers are
+balanced at 350/280 ms, retaining positional/prior-idle safeguards. The Sym-layer
+Ctrl/Backspace binding also uses the right-hand modifier behavior.
 
 There are **19 declared custom behaviors** in the original and **9** in the kb
 port. Of the latter, `qt`, `tap_right`, and `macro_layers` are currently unbound;
@@ -49,8 +49,8 @@ unused actions, including `to_button` and profile 4's `bt_4` behavior.
 
 Temper adds one outer thumb to each hand. The opposite-hand trigger sets include
 that extra thumb; kb's four existing thumb bindings map from positions 30–33 to
-31–34. Apart from the modifier hold-tap flavor, the other behavior parameters
-match kb.
+31–34. Temper's modifier and strict/thumb hold-tap settings have been tuned
+independently of kb, as shown above.
 
 ## Combos
 
