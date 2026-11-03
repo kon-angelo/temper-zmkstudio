@@ -16,7 +16,8 @@ devicetree, ported from `config/urchin.keymap` in
 [`urchin-zmk-firmware` (kb)](https://github.com/kon-angelo/urchin-zmk-firmware).
 Urchin's 30 finger keys map directly to Temper; its four thumbs occupy Temper
 positions 31–34. The port uses kb's bottom-row modifiers, positional layer
-holds, macros, combo timing, and dedicated locked layers, with corrected combo
+holds, macros, combo timing, and dedicated locked layers, including kb v0.2.8's
+Nav Locked layer and revised Sym bindings, with corrected combo
 targets/scopes, N's right-hand hold behavior, and tap-preferred modifier holds.
 The same firmware source can be edited with either editor below.
 
@@ -60,11 +61,11 @@ Temper's two additional outer thumbs have these per-layer actions:
 | Nav | Tab | Delete |
 | Mouse | GUI / Command | Return to Base |
 | Media | Stop | Play/pause |
-| Mod | Caps Word | Return to Base |
 | System | Next Bluetooth profile | Return to Base |
 | Mouse Locked | GUI / Command | Return to Base |
 | Numpad Locked | Minus | Plus |
 | FN Locked | Escape | Return to Base |
+| Nav Locked | Tab | Delete |
 | Symbols | Left parenthesis | Transparent (keeps the Base-layer hold) |
 
 On **Mouse, Numpad, or FN**, press the **left inner thumb** to enter that layer's
@@ -72,6 +73,10 @@ dedicated locked copy. It stays active after releasing the original G/T/R hold;
 press the left inner thumb again to return to Base. Numpad's sticky Shift is on
 the left middle thumb. Mouse and Numpad retain their Enter/Space return macros;
 FN's right thumbs return directly to Base.
+
+On **Nav**, the left inner thumb enters **Nav Locked**. As in kb v0.2.8, both
+inner left thumbs provide Shift while locked; the right inner thumb returns to
+Base and sends Enter, and the right middle thumb returns to Base.
 
 The **right outer thumb** opens a second symbol layout copied from the original
 Temper/Miryoku keymap: symbol keys on the left (`{ & * ( }`, `: $ % ^ +`,
@@ -107,10 +112,10 @@ To clear a specific host pairing, select it with **System+T/G/B**, then press
 **System+R**. This performs the same selection-and-clear sequence as the old
 profile-clear macros, using two button presses.
 
-Layer indices remain aligned with kb: Base, Sym, Shifted, Master, Vi, Numpad,
-FN, Nav, Mouse, Media, Mod, System, Mouse Locked (0–12). The additional layers
-are Numpad Locked (13), FN Locked (14), and original Temper Symbols (15).
-Mod is available for editor customization.
+Layer indices are aligned with kb through Nav Locked: Base (0), Sym (1),
+Shifted (2), Master (3), Vi (4), Numpad (5), FN (6), Nav (7), Mouse (8), Media (9),
+System (10), Mouse Locked (11), Numpad Locked (12), FN Locked (13), and
+Nav Locked (14). Original Temper Symbols occupies layer 15. Mod has been removed.
 
 ### Bluetooth settings (kb3)
 

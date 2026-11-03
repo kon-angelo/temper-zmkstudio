@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  *
  * Plain ZMK devicetree for ZMK Studio and Nick Coutsos' ZMK Keymap Editor.
- * Layers 0-12 match kb; Numpad Locked, FN Locked and Symbols occupy 13-15.
+ * Layers 0-14 match kb; the original Temper Symbols layout occupies layer 15.
  * Urchin positions 0-29 map directly; thumbs 30-33 become 31-34.
  * Temper's extra outer thumbs (30 and 35) provide per-layer utility actions.
  */
@@ -187,10 +187,10 @@
         };
 
         system_tog {
-            bindings = <&tog 11>;
+            bindings = <&tog 10>;
             key-positions = <1 11 21>;
             require-prior-idle-ms = <250>;
-            layers = <0 11>;
+            layers = <0 10>;
         };
 
         reset_base {
@@ -243,13 +243,13 @@
             key-positions = <15 16>;
             timeout-ms = <100>;
             require-prior-idle-ms = <30>;
-            layers = <0 1 5 13>;
+            layers = <0 1 5 12>;
         };
 
         sys2 {
-            bindings = <&tog 11>;
+            bindings = <&tog 10>;
             key-positions = <8 18 28>;
-            layers = <0 11>;
+            layers = <0 10>;
         };
 
         failsafe {
@@ -337,17 +337,17 @@
 &kp Q                  &kp W                 &kp E                &tap_left_strict 6 R        &tap_left_strict 5 T      &kp Y                   &kp U                    &kp I                          &kp O                       &kp P
 &kp A                  &tap_left 4 S         &tap_left 3 D         &tap_left 7 F               &tap_left_strict 8 G     &kp H                   &kp J                    &kp K                          &kp L                       &kp BACKSPACE
 &homerow_left LCTRL Z  &homerow_left LALT X  &homerow_left LGUI C  &homerow_left LEFT_SHIFT V  &homerow_left LCTRL B    &homerow_right LCTRL N  &homerow_right RSHIFT M  &homerow_right LEFT_GUI COMMA  &homerow_right RALT PERIOD  &homerow_right LCTRL SLASH
-                                             &mo 11                &sk LEFT_SHIFT              &mo 1                    &master_key 1 ENTER     &master_key 3 SPACE      &mo 15
+                                             &mo 10                &sk LEFT_SHIFT              &mo 1                    &master_key 1 ENTER     &master_key 3 SPACE      &mo 15
             >;
         };
 
         sym_layer {
             display-name = "Sym";
             bindings = <
-&kp N1      &kp N2         &kp N3     &kp N4         &kp N5            &kp N6          &kp N7      &kp N8         &kp N9         &kp N0
-&sk2 LCTRL  &sk2 LALT      &sk2 LGUI  &sk2 LSHFT     &kp LBKT          &kp RBKT        &sk2 RSHFT  &sk2 RGUI      &sk2 RALT      &homerow_right RCTRL BACKSPACE
-&kp PIPE    &kp BACKSLASH  &kp APOS   &kp BACKSLASH  &kp GRAVE         &kp EQUAL       &kp MINUS   &kp SQT        &kp SEMICOLON  &kp FSLH
-                           &mo 2      &trans         &sk LEFT_SHIFT    &kp LEFT_SHIFT  &trans      &kp BACKSPACE
+&kp N1                &kp N2         &kp N3             &kp N4            &kp N5          &kp N6          &kp N7      &kp N8     &kp N9         &kp N0
+&sk2 LCTRL            &sk2 LALT      &sk2 LGUI          &sk2 LSHFT        &kp LBKT        &kp RBKT        &sk2 RSHFT  &sk2 RGUI  &sk2 RALT      &homerow_right RCTRL BACKSPACE
+&kp NON_US_BACKSLASH  &kp BACKSLASH  &kp RIGHT_BRACKET  &kp LEFT_BRACKET  &kp GRAVE       &kp EQUAL       &kp MINUS   &kp SQT    &kp SEMICOLON  &kp FSLH
+                                    &mo 2              &trans            &sk LEFT_SHIFT  &kp LEFT_SHIFT  &trans      &kp BACKSPACE
             >;
         };
 
@@ -387,7 +387,7 @@
 &none      &none     &none      &none      &none             &none        &kp N7     &kp N8    &kp N9  &kp N0
 &kp LCTRL  &kp LALT  &kp LGUI   &kp LSHFT  &none             &kp DOT      &kp N4     &kp N5    &kp N6  &kp BSPC
 &kp LCTRL  &kp LALT  &kp LGUI   &kp LSHFT  &none             &kp COMMA    &kp N1     &kp N2    &kp N3  &kp ENTER
-                     &kp MINUS  &sk LEFT_SHIFT &to 13        &enter_to_0  &spc_to_0  &kp PLUS
+                     &kp MINUS  &sk LEFT_SHIFT &to 12        &enter_to_0  &spc_to_0  &kp PLUS
             >;
         };
 
@@ -397,7 +397,7 @@
 &none      &none     &none     &none      &none    &none  &kp F7  &kp F8  &kp F9  &kp F12
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none    &none  &kp F4  &kp F5  &kp F6  &kp F11
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none    &none  &kp F1  &kp F2  &kp F3  &kp F10
-                     &kp ESC   &none      &to 14   &to 0  &to 0   &to 0
+                     &kp ESC   &none      &to 13   &to 0  &to 0   &to 0
             >;
         };
 
@@ -407,7 +407,7 @@
 &none      &none     &none     &none           &none             &kp HOME                  &kp PAGE_DOWN         &kp PAGE_UP            &kp END                    &none
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT       &none             &kp LEFT                  &kp DOWN              &kp UP                 &kp RIGHT                  &kp BACKSPACE
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT       &none             &kp LS(LG(LEFT_BRACKET))  &kp LG(LEFT_BRACKET)  &kp LG(RIGHT_BRACKET)  &kp LS(LG(RIGHT_BRACKET))  &none
-                     &kp TAB   &kp LEFT_SHIFT  &kp LEFT_SHIFT    &enter_to_0               &to 0                 &kp DELETE
+                     &kp TAB   &kp LEFT_SHIFT  &to 14            &enter_to_0               &to 0                 &kp DELETE
             >;
         };
 
@@ -417,7 +417,7 @@
 &none      &none     &none     &none      &none     &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_UP  &msc SCRL_RIGHT  &none
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none     &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none     &none           &mkp MB1        &mkp MB2      &mkp MB3         &none
-                     &kp LGUI  &none      &to 12    &enter_to_0     &to 0           &to 0
+                     &kp LGUI  &none      &to 11    &enter_to_0     &to 0           &to 0
             >;
         };
 
@@ -428,16 +428,6 @@
 &none  &none  &kp LG(MINUS)  &kp LG(EQUAL)  &none        &kp C_MUTE        &kp C_VOLUME_DOWN     &kp C_VOLUME_UP       &kp C_PLAY_PAUSE  &none
 &none  &none  &none          &none          &none        &kp C_PLAY_PAUSE  &kp C_PREV            &kp C_NEXT            &none             &none
               &kp C_STOP     &kp LG(MINUS)  &kp EQUAL    &to 0             &to 0                 &kp C_PLAY_PAUSE
-            >;
-        };
-
-        mod_layer {
-            display-name = "Mod";
-            bindings = <
-&kp LCTRL  &kp LALT  &kp LGUI    &kp LSHFT  &none    &none  &kp LSHFT  &kp LGUI  &kp LALT  &kp LCTRL
-&kp LCTRL  &kp LALT  &kp LGUI    &kp LSHFT  &none    &none  &kp LSHFT  &kp LGUI  &kp LALT  &kp LCTRL
-&sk LCTRL  &sk LALT  &sk LGUI    &sk LSHFT  &none    &none  &sk LSHFT  &sk LGUI  &sk LALT  &sk LCTRL
-                     &caps_word  &none      &none    &none  &none      &to 0
             >;
         };
 
@@ -481,6 +471,17 @@
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none    &none  &kp F4  &kp F5  &kp F6  &kp F11
 &kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT  &none    &none  &kp F1  &kp F2  &kp F3  &kp F10
                      &kp ESC   &none      &to 0    &to 0  &to 0   &to 0
+            >;
+        };
+
+        /* kb v0.2.8 Nav Locked: right thumbs return to Base, left thumbs are Shift. */
+        nav_locked_layer {
+            display-name = "Nav Locked";
+            bindings = <
+&none      &none     &none     &none           &none             &kp HOME                  &kp PAGE_DOWN         &kp PAGE_UP            &kp END                    &none
+&kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT       &none             &kp LEFT                  &kp DOWN              &kp UP                 &kp RIGHT                  &kp BACKSPACE
+&kp LCTRL  &kp LALT  &kp LGUI  &kp LSHFT       &none             &kp LS(LG(LEFT_BRACKET))  &kp LG(LEFT_BRACKET)  &kp LG(RIGHT_BRACKET)  &kp LS(LG(RIGHT_BRACKET))  &none
+                     &kp TAB   &kp LEFT_SHIFT  &kp LEFT_SHIFT    &enter_to_0               &to 0                 &kp DELETE
             >;
         };
 

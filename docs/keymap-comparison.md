@@ -14,10 +14,10 @@ kb2/Sofle port.
 | Modifier hold-taps | `u_mt`: tap-preferred, 200 ms; no positional or prior-idle rules | `homerow_left`: tap-preferred, 350 ms, 100 ms prior idle; `homerow_right`: tap-preferred, 280 ms, 150 ms prior idle |
 | Layer hold-taps | `u_lt`: tap-preferred, 200 ms | `tap_left`: balanced, 260 ms, 100 ms prior idle; strict variant: 260/120 ms; `master_key`: 350/100 ms |
 | Positional holds | No hand restrictions | Hand-specific triggers and `hold-trigger-on-release`; master thumbs accept all 30 finger positions |
-| Layer switching | Ten double-tap dances; a single tap does nothing, double tap switches layers | Direct holds/toggles and combos; dedicated Mouse, Numpad and FN locked layers survive release of their original holds |
+| Layer switching | Ten double-tap dances; a single tap does nothing, double tap switches layers | Direct holds/toggles and combos; dedicated Mouse, Numpad, FN and Nav locked layers survive release of their original holds |
 | Sticky modifiers | No custom sticky-key setup | `sk`: lazy + quick-release, 1-second timeout, retains ignore-modifiers; `sk2`: quick-release + ignore-modifiers, 1-second timeout |
 | Bluetooth | Shift-sensitive profile behaviors: select normally, select-and-clear while shifted | Direct selection on System, separate clear-current-profile key, extra thumb cycles profiles |
-| Caps Word | Mod-morph: Caps Word normally, Caps Lock with Shift | Plain Caps Word on the added Master/Mod outer thumbs |
+| Caps Word | Mod-morph: Caps Word normally, Caps Lock with Shift | Plain Caps Word on the added Master outer thumb |
 | Mouse | Keypad direction codes, mouse clicks on thumbs | Actual pointer movement and scrolling, with kb's default speed/acceleration; clicks on M/comma/period |
 
 Balanced hold-taps can resolve as holds during an interrupting key press/release;
@@ -138,10 +138,15 @@ two button presses instead of a single Shift-modified profile action.
 - The outer-thumb bindings are listed in the [README](../README.md#temper-adaptation).
   They provide System/original Symbols on Base, editing keys, numeric operators,
   exits, Caps Word, media controls, and profile cycling. The Sym outer thumb
-  also makes kb's otherwise-unbound Shifted layer directly accessible.
+  provides direct access to the Shifted layer.
 - Numpad activation moves from E to **T**. Numpad and FN now have dedicated
-  locked layers (13/14), entered with the left inner thumb while the ordinary
+  locked layers (12/13), entered with the left inner thumb while the ordinary
   layer is active. That thumb exits the locked layer, just like Mouse Locked.
+- kb v0.2.8's Sym changes are included: non-US backslash on Z's position and
+  right/left brackets on C/V. Its Nav Locked layer occupies index 14, entered
+  with Nav's left inner thumb and exited with the right-hand return bindings.
+- Mod is removed. System is now 10, Mouse Locked 11, Numpad Locked 12, and
+  FN Locked 13. Combo filters and all layer bindings use these updated indices.
 - Layer 15 restores the original Temper's left-hand symbol arrangement and
   right-hand modifiers, reached with the right outer thumb on Base.
 - Bluetooth supports **three host profiles**. The central's connection and
