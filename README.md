@@ -9,6 +9,61 @@ continuation of [chocofi](https://github.com/pashutk/chocofi/).
 The firmware targets nRF52840 Pro Micro-compatible controllers using ZMK. A
 GitHub Actions workflow builds separate UF2 files for the left and right halves.
 
+### Build locally
+
+Start Docker Desktop, then run from this repository:
+
+```sh
+make firmware
+```
+
+This uses the same ZMK build image and `build.yaml` matrix as GitHub Actions,
+including your local keymap edits. It builds all three targets and saves them
+to the gitignored `firmware/` folder in this repository:
+
+- `temper-left-niceview-bongo.uf2` — left/central, with ZMK Studio
+- `temper-right-niceview-status.uf2` — right/peripheral
+- `settings-reset.uf2` — settings-reset image
+
+The first run downloads ZMK and its dependencies. Later runs reuse the
+`temper-zmkstudio-build` Docker volume and compiler cache, with a pristine build
+for each target. ZMK and KeyBeacon are pinned in `config/west.yml`.
+Dependencies refresh when that file changes; to explicitly refresh the pinned
+dependencies, run:
+
+```sh
+make firmware UPDATE=1
+```
+
+`ZMK_IMAGE` and `ZMK_VOLUME` can be overridden.
+
+### KeyBeacon on macOS
+
+The left/central build enables KeyBeacon and fetches the right half's battery
+level. `config/west.yml` uses the privacy-hardened `kon-angelo/zmk-keybeacon`
+fork. Run `make firmware`, then put each half into its UF2 bootloader and copy
+the matching `temper-left-niceview-bongo.uf2` / `temper-right-niceview-status.uf2`
+onto its mounted drive. The generated `settings-reset.uf2` is a separate
+recovery image; it is not part of a normal firmware update.
+
+Connect **FunkeeB_Temper** to the Mac over Bluetooth and launch the app:
+
+```sh
+open ~/SAPDevelop/dev/src/github.com/kon-angelo/keybeacon/dist/BleWidget.app
+```
+
+Allow Bluetooth access when macOS asks. The app lives in the menu bar; its
+floating panel shows layers, modifiers, host/profile state and available battery
+readings. Select Temper in the app's keyboard menu if several compatible
+keyboards are connected. Installing the app in `/Applications` is optional.
+
+The hardened firmware sends layer/modifier information only to the active
+Bluetooth typing host. Other hosts, and all Bluetooth hosts while USB is the
+selected typing output, see **Private** with no held modifiers. Battery and
+connectivity remain available to encrypted, bonded hosts. Normal firmware
+updates preserve pairing; if the new service is not discovered, reconnect the
+keyboard and restart the app before considering a re-pair.
+
 ## Configuring the keymap
 
 The active [`config/temper.keymap`](config/temper.keymap) is plain ZMK
@@ -30,22 +85,22 @@ The base thumb keys, ordered from left to right, are:
 
 | Thumb | Tap / press | Hold |
 | --- | --- | --- |
-| Left outer | System layer | System layer |
+| Left outer | Mouse layer | Mouse layer |
 | Left middle | Sticky Shift | Shift |
-| Left inner | Symbols layer | Symbols layer |
-| Right inner | Enter | Symbols layer |
+| Left inner | Sym layer | Sym layer |
+| Right inner | Enter | Sym layer |
 | Right middle | Space | Master layer |
-| Right outer | Original Temper Symbols layer | Original Temper Symbols layer |
+| Right outer | Nav layer | Nav layer |
 
-On Base, holding **T / R** accesses **Numpad / FN**, and holding **S / D / F / G**
+On Base, holding **E / R** accesses **Numpad / FN**, and holding **S / D / F / G**
 accesses **Vi / Master / Nav / Mouse**, using positional hold rules and the
-timing below. Backspace is at the right end of the home row. Symbols provides the
+timing below. Backspace is at the right end of the home row. Sym provides the
 number row, and FN provides F1–F12.
 
 Bottom-row modifier holds are **balanced**, with a **350 ms** tapping term
 on the left and **280 ms** on the right. The positional and prior-idle rules
 remain in place. The Sym-layer Ctrl/Backspace binding shares the right-hand
-behavior. S/D/F layer holds are **balanced** (260 ms). The strict T/R/G layer
+behavior. S/D/F layer holds are **balanced** (280 ms). The strict E/R/G layer
 holds are **tap-preferred** (260 ms, 100 ms prior idle), and the Enter/Space
 thumb holds are **tap-preferred** (350 ms, 100 ms prior idle).
 
@@ -53,9 +108,8 @@ Temper's two additional outer thumbs have these per-layer actions:
 
 | Layer | Left outer thumb | Right outer thumb |
 | --- | --- | --- |
-| Base | Hold System | Hold original Temper Symbols |
-| Sym | Hold Shifted | Backspace |
-| Shifted | Transparent (keeps the Sym-layer hold) | Delete |
+| Base | Hold Mouse | Hold Nav |
+| Sym | `&mo 0` | Backspace |
 | Master | Caps Word | Escape |
 | Vi | Escape | Enter |
 | Numpad | Minus | Plus |
@@ -64,36 +118,41 @@ Temper's two additional outer thumbs have these per-layer actions:
 | Mouse | GUI / Command | Return to Base |
 | Media | Stop | Play/pause |
 | System | Next Bluetooth profile | Return to Base |
-| Mouse Locked | GUI / Command | Return to Base |
-| Numpad Locked | Minus | Plus |
+| Mouse Locked | GUI / Command | Middle-click (MB3) |
+| Numpad Locked | None | Return to Base |
 | FN Locked | Escape | Return to Base |
-| Nav Locked | Tab | Delete |
-| Symbols | Left parenthesis | Transparent (keeps the Base-layer hold) |
+| Nav Locked | Tab | Return to Base |
 
 On **Mouse, Numpad, or FN**, press the **left inner thumb** to enter that layer's
-dedicated locked copy. It stays active after releasing the original G/T/R hold;
+dedicated locked copy. It stays active after releasing the original G/E/R hold;
 press the left inner thumb again to return to Base. Numpad's sticky Shift is on
-the left middle thumb. Mouse and Numpad retain their Enter/Space return macros;
-FN's right thumbs return directly to Base.
+the left middle thumb.
 
-On **Nav**, the left inner thumb enters **Nav Locked**. As in kb v0.2.8, both
-inner left thumbs provide Shift while locked; the right inner thumb returns to
-Base and sends Enter, and the right middle thumb returns to Base.
+Hold **F** or the **right outer thumb** to activate **Nav**, then tap the
+**left inner thumb** to enter **Nav Locked**. Release the Nav hold to keep
+navigating with the same arrow, page, Home/End, and bracket shortcuts. Both inner
+left thumbs provide Shift while locked.
 
-The **right outer thumb** opens a second symbol layout copied from the original
-Temper/Miryoku keymap: symbol keys on the left (`{ & * ( }`, `: $ % ^ +`,
-`~ ! @ # |`), modifiers on the right, and `(` / `)` / `_` on the left thumbs.
-The original kb **Sym** and **Shifted** layers remain accessible as before.
+On **Numpad Locked, FN Locked, and Nav Locked**, the right thumbs are **Enter /
+Space / Return to Base**, ordered from inner to outer. Enter and Space keep the layer locked.
+Press the **right outer thumb** or **J + K** to return to Base.
+
+On **Mouse Locked**, the right thumbs are **right-click (MB2) / left-click (MB1) /
+middle-click (MB3)**, ordered from inner to outer. Hold a thumb to hold that mouse
+button, including for dragging. Return to Base with **J + K** or the **left inner
+thumb**.
 
 Frequently used combos (key names refer to their Base-layer positions):
 
 | Combo | Action |
 | --- | --- |
-| J + K | Escape |
+| J + K on Base | Escape |
+| J + K on any layer except Base or Sym | Return to Base (`&to 0`) |
 | U + I | Enter |
 | H + J | Tab |
 | Y + U | Backspace |
 | H + U / J + I | Left / right bracket |
+| R + E / T + E on Base | Left / right bracket (`[` / `]`) |
 | I + O | Ctrl+Space |
 | W + E / W + E + R | Hold / toggle FN |
 | X + C or C + V | Hold Mouse |
@@ -106,7 +165,11 @@ Frequently used combos (key names refer to their Base-layer positions):
 | M + comma + period on Master | Sticky Alt+Ctrl+GUI |
 | Q + W + E + R | Return to Base from any layer |
 
-Hold the **left outer thumb** on Base for System: **T / G / B** select Bluetooth
+The **R + E / T + E** bracket combos require the two keys to be pressed within
+**35 ms**, following at least **150 ms** without a non-modifier key press.
+This favors deliberate chords over ordinary `re` / `te` typing sequences.
+
+Press **W + S + X** on Base to toggle System: **T / G / B** select Bluetooth
 profiles **0 / 1 / 2**, **R** clears the current pairing, and **I** invokes the
 modifier-reset macro. **Q / A / P** or the home-row **Backspace** key enters the
 bootloader. The **Z / slash** keys retain kb's manual Studio unlock action.
@@ -114,10 +177,9 @@ To clear a specific host pairing, select it with **System+T/G/B**, then press
 **System+R**. This performs the same selection-and-clear sequence as the old
 profile-clear macros, using two button presses.
 
-Layer indices are aligned with kb through Nav Locked: Base (0), Sym (1),
-Shifted (2), Master (3), Vi (4), Numpad (5), FN (6), Nav (7), Mouse (8), Media (9),
-System (10), Mouse Locked (11), Numpad Locked (12), FN Locked (13), and
-Nav Locked (14). Original Temper Symbols occupies layer 15. Mod has been removed.
+Current layer indices: Base (0), Sym (1), Master (2), Vi (3), Numpad (4),
+FN (5), Nav (6), Mouse (7), Media (8), System (9), Mouse Locked (10),
+Numpad Locked (11), FN Locked (12), and Nav Locked (13).
 
 ### Bluetooth settings (kb3)
 

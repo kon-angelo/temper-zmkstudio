@@ -5,7 +5,10 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: main
+      revision: 4dd95d7840eb3d5a3f59bb29fbf1ab054715ef85
       import: app/west.yml
+    - name: zmk-keybeacon
+      url: https://github.com/kon-angelo/zmk-keybeacon
+      revision: 379180715440e2d59d4759f8c668f58dd0bc5030
   self:
     path: config
